@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#08090e" />
+  <title>MyFest BCN — 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Shrikhand&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#08090e; --paper:#f8f5ef; --pink:#ff4fc9; --lime:#d7ff42; --blue:#5ca9ff; --orange:#ff7a38; --line:rgba(248,245,239,.2); }
+    * { box-sizing:border-box; } html { scroll-behavior:smooth; } body { margin:0; background:var(--ink); color:var(--paper); font-family:Manrope,Arial,sans-serif; overflow-x:hidden; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; }
+    .noise { position:fixed; inset:0; pointer-events:none; z-index:20; opacity:.06; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E"); }
+    .shell { width:min(1240px,calc(100% - 48px)); margin:auto; }
+    .eyebrow { font:500 11px/1.2 "DM Mono",monospace; letter-spacing:.14em; text-transform:uppercase; }
+    .pill { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid var(--line); border-radius:999px; font:500 11px "DM Mono",monospace; letter-spacing:.06em; text-transform:uppercase; }
+    .dot { width:7px; height:7px; background:var(--lime); border-radius:50%; box-shadow:0 0 14px var(--lime); }
+    nav { position:absolute; top:0; left:0; right:0; z-index:5; display:flex; justify-content:space-between; align-items:center; padding:28px max(24px,calc((100vw - 1240px)/2)); }
+    .nav-logo { font:23px Shrikhand,serif; letter-spacing:-1px; } .nav-logo i { color:var(--pink); font-style:normal; }
+    .nav-links { display:flex; align-items:center; gap:27px; font-size:12px; font-weight:700; }
+    .nav-links a:not(.buy) { opacity:.78; transition:.2s; } .nav-links a:hover { opacity:1; color:var(--lime); }
+    .buy { background:var(--paper); color:var(--ink); padding:11px 17px; border-radius:999px; }
+    .hero { min-height:760px; position:relative; overflow:hidden; padding-top:140px; background:radial-gradient(circle at 80% 25%,#452576 0,transparent 30%),radial-gradient(circle at 14% 70%,#0a5778 0,transparent 30%),#0d1020; }
+    .hero:after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,#08090e 0%,rgba(8,9,14,.77) 36%,rgba(8,9,14,.07) 75%,#08090e 100%),linear-gradient(0deg,#08090e 0%,transparent 42%); z-index:1; }
+    .orb { position:absolute; border-radius:50%; filter:blur(1px); opacity:.9; animation:float 9s ease-in-out infinite; } .orb.one { width:315px;height:315px;right:8%;top:9%;background:var(--pink);mix-blend-mode:screen; } .orb.two { width:190px;height:190px;right:39%;bottom:-8%;background:var(--lime); animation-delay:-4s; } .orb.three { width:105px;height:105px;left:40%;top:25%;background:var(--orange); animation-delay:-7s; }
+    @keyframes float { 50% { transform:translate(22px,-25px) scale(1.08); } }
+    .hero-photo { position:absolute; right:8%; bottom:0; z-index:1; width:min(47vw,590px); height:690px; object-fit:cover; object-position:center top; filter:saturate(1.25) contrast(1.1); mask-image:linear-gradient(to bottom,transparent 0,black 12%,black 83%,transparent); -webkit-mask-image:linear-gradient(to bottom,transparent 0,black 12%,black 83%,transparent); }
+    .hero-content { position:relative; z-index:2; } .hero-topline { display:flex; gap:13px; align-items:center; margin-bottom:24px; }
+    .hero h1 { margin:0; max-width:730px; font:clamp(78px,13.2vw,177px)/.75 Shrikhand,serif; letter-spacing:-.075em; color:#f6f4f1; transform:rotate(-2deg); text-shadow:5px 5px 0 var(--pink),10px 10px 0 rgba(215,255,66,.55); }
+    .hero h1 span { display:block; color:var(--lime); margin-left:100px; } .hero-desc { margin:40px 0 26px; max-width:370px; font-size:15px; line-height:1.6; color:#dfdce5; }
+    .cta { display:inline-flex; gap:15px; align-items:center; background:var(--pink); color:#0b0b10; padding:16px 20px; border-radius:14px; font-size:13px; font-weight:800; transition:.2s transform,.2s box-shadow; } .cta:hover { transform:translateY(-3px) rotate(-1deg); box-shadow:0 12px 0 var(--lime); } .arrow { font-size:22px; line-height:10px; }
+    .hero-date { position:absolute; z-index:3; right:0; bottom:45px; text-align:right; } .hero-date strong { display:block; font:clamp(34px,5vw,68px)/.9 Shrikhand,serif; color:var(--orange); letter-spacing:-.04em; } .hero-date span { font:11px "DM Mono",monospace; letter-spacing:.12em; }
+    .ticker { position:relative; z-index:4; background:var(--lime); color:#111; padding:13px 0; overflow:hidden; white-space:nowrap; transform:rotate(-1.2deg) scale(1.03); } .ticker-track { display:inline-block; font:800 15px "DM Mono",monospace; letter-spacing:.06em; animation:marquee 22s linear infinite; } @keyframes marquee { to { transform:translateX(-50%); } }
+    .section { padding:110px 0; } .intro { display:grid; grid-template-columns:.8fr 1.2fr; gap:80px; border-bottom:1px solid var(--line); } .intro h2,.section-title { font:clamp(42px,6vw,74px)/.92 Shrikhand,serif; letter-spacing:-.055em; margin:0; }
+    .intro-copy { font-size:24px; line-height:1.35; max-width:620px; margin:0 0 35px; } .intro-copy em { font-style:normal; color:var(--pink); } .stats { display:flex; gap:45px; flex-wrap:wrap; } .stat strong { display:block; font-size:33px; letter-spacing:-.06em; } .stat span { font:10px "DM Mono",monospace; opacity:.55; letter-spacing:.08em; text-transform:uppercase; }
+    .lineup { background:var(--paper); color:var(--ink); } .lineup-head { display:flex; justify-content:space-between; align-items:end; margin-bottom:47px; } .lineup-head .pill { border-color:rgba(8,9,14,.2); }
+    .artist-grid { display:grid; grid-template-columns:1.45fr 1fr 1fr; grid-template-rows:225px 225px; gap:16px; } .artist { position:relative; border-radius:18px; overflow:hidden; min-height:150px; background:#d8d4ce; padding:20px; display:flex; align-items:end; isolation:isolate; } .artist:before { content:""; position:absolute; inset:0; background:linear-gradient(0deg,rgba(0,0,0,.68),transparent 65%); z-index:-1; } .artist:after { content:""; position:absolute; z-index:-2; inset:0; background:var(--blue); }
+    .artist img { position:absolute; inset:0; height:100%; width:100%; object-fit:cover; z-index:-1; filter:saturate(.9) contrast(1.05); } .artist-main { grid-row:span 2; background:#6f34cc; } .artist-main h3 { font:clamp(42px,5vw,71px)/.88 Shrikhand,serif; } .artist h3 { margin:0; color:white; letter-spacing:-.06em; font-size:29px; line-height:.9; } .artist .tag { position:absolute; top:17px; left:17px; padding:7px 9px; background:var(--lime); border-radius:6px; font:10px "DM Mono",monospace; font-weight:700; color:#111; }
+    .artist:nth-child(2):after { background:linear-gradient(135deg,#ff4fc9,#5c37a5); } .artist:nth-child(3):after { background:linear-gradient(135deg,#ff7a38,#c52171); } .artist:nth-child(4):after { background:linear-gradient(135deg,#5ca9ff,#142a76); } .artist:nth-child(5):after { background:linear-gradient(135deg,#d7ff42,#3b7d45); }
+    .schedule { background:#12131b; } .schedule-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:40px; } .days { display:flex; gap:8px; } .day { border:1px solid var(--line); border-radius:99px; padding:10px 15px; background:transparent; color:white; cursor:pointer; font:11px "DM Mono",monospace; } .day.active,.day:hover { background:var(--pink); color:#111; border-color:var(--pink); }
+    .sets { border-top:1px solid var(--line); } .set { display:grid; grid-template-columns:120px 1fr 130px 20px; align-items:center; gap:20px; padding:20px 8px; border-bottom:1px solid var(--line); transition:.2s; } .set:hover { padding-left:18px; background:rgba(255,255,255,.04); } .set time,.set small { font:11px "DM Mono",monospace; opacity:.65; } .set b { font-size:21px; letter-spacing:-.04em; } .set.featured b { color:var(--lime); } .set .plus { font-size:23px; color:var(--pink); }
+    .experience { position:relative; overflow:hidden; background:linear-gradient(110deg,#ff4fc9 0%,#ff4fc9 38%,#f6b344 100%); color:#111; } .experience:after { content:"MYFEST"; position:absolute; right:-.07em; bottom:-.26em; font:23vw/.8 Shrikhand,serif; color:rgba(255,255,255,.22); letter-spacing:-.1em; } .experience-grid { position:relative; z-index:1; display:grid; grid-template-columns:1fr 1fr; gap:80px; } .experience p { font-size:20px; line-height:1.42; max-width:480px; } .perks { display:grid; grid-template-columns:1fr 1fr; gap:18px; align-content:center; } .perk { border-top:2px solid #111; padding-top:12px; font-weight:800; } .perk span { display:block; margin-top:7px; font:11px/1.45 "DM Mono",monospace; font-weight:400; }
+    .tickets { background:#101a35; } .ticket-head { display:flex; justify-content:space-between; margin-bottom:43px; align-items:end; } .ticket-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:17px; } .ticket { padding:28px; min-height:326px; border:1px solid var(--line); border-radius:17px; display:flex; flex-direction:column; transition:.25s; background:rgba(255,255,255,.02); } .ticket:hover { transform:translateY(-9px); background:var(--paper); color:var(--ink); } .ticket.highlight { background:var(--lime); color:#111; transform:rotate(-2deg); border:none; } .ticket h3 { margin:24px 0 8px; font-size:22px; } .ticket p { font:12px/1.5 "DM Mono",monospace; opacity:.75; min-height:42px; } .price { margin-top:auto; font:44px/.9 Shrikhand,serif; letter-spacing:-.06em; } .ticket .cta { margin-top:21px; justify-content:center; background:currentColor; color:var(--paper); } .ticket:hover .cta,.ticket.highlight .cta { background:#111; color:white; }
+    .location { display:grid; grid-template-columns:1fr 1.05fr; min-height:500px; background:#c8e9ff; color:#111; } .location-copy { padding:75px max(24px,calc((100vw - 1240px)/2)); padding-right:60px; } .location-copy p { max-width:390px; font-size:17px; line-height:1.5; } .map { position:relative; overflow:hidden; background-color:#a6ddc3; background-image:linear-gradient(30deg,transparent 47%,rgba(255,255,255,.8) 48%,rgba(255,255,255,.8) 52%,transparent 53%),linear-gradient(122deg,transparent 45%,rgba(255,255,255,.9) 46%,rgba(255,255,255,.9) 49%,transparent 50%),radial-gradient(circle at 40% 40%,#75bfa9 0 10%,transparent 10.5%),radial-gradient(circle at 70% 65%,#75bfa9 0 13%,transparent 13.5%); } .map:after { content:"FORUM\A BARCELONA"; white-space:pre; position:absolute; top:45%; left:47%; text-align:center; font:800 25px/.9 Shrikhand,serif; transform:rotate(-5deg); } .pin { position:absolute; top:31%; left:51%; width:41px; height:41px; border-radius:50% 50% 50% 0; background:var(--pink); transform:rotate(-45deg); box-shadow:0 3px 0 #111; } .pin:after { content:""; position:absolute; width:15px; height:15px; background:#111; border-radius:50%; top:13px; left:13px; }
+    footer { padding:48px 0 28px; } .footer-top { display:flex; justify-content:space-between; align-items:start; padding-bottom:45px; border-bottom:1px solid var(--line); } .footer-logo { font:52px/.85 Shrikhand,serif; letter-spacing:-.07em; } .footer-logo i { color:var(--pink); font-style:normal; } .socials { display:flex; gap:20px; font:11px "DM Mono",monospace; } .footer-bottom { display:flex; justify-content:space-between; margin-top:24px; font:10px "DM Mono",monospace; opacity:.5; }
+    @media(max-width:760px) { .shell { width:min(100% - 32px,1240px); } nav { padding:20px 16px; } .nav-links a:not(.buy) { display:none; } .hero { min-height:680px; padding-top:150px; } .hero-photo { width:88vw; right:-15%; height:530px; opacity:.64; } .hero h1 { font-size:25vw; } .hero h1 span { margin-left:39px; } .hero-date { right:16px; bottom:65px; } .intro,.experience-grid,.location { grid-template-columns:1fr; gap:32px; } .section { padding:72px 0; } .intro-copy { font-size:19px; } .artist-grid { grid-template-columns:1fr 1fr; grid-template-rows:260px 145px 145px; } .artist-main { grid-column:span 2; grid-row:auto; } .artist-main h3 { font-size:48px; } .lineup-head,.schedule-head,.ticket-head { align-items:start; gap:18px; flex-direction:column; } .set { grid-template-columns:65px 1fr 18px; gap:10px; } .set small { display:none; } .ticket-cards { grid-template-columns:1fr; } .ticket.highlight { transform:none; } .location-copy { padding:58px 24px 25px; } .map { min-height:310px; } .footer-top,.footer-bottom { gap:28px; flex-direction:column; } }
+    .faq { padding:105px 0; background:#100e19; }
+    .faq-layout { width:min(760px,100%); margin:auto; }.faq-title { display:flex; align-items:center; gap:12px; margin-bottom:17px; }.faq-title i { width:13px; height:16px; background:linear-gradient(90deg,var(--pink),var(--blue)); transform:rotate(-4deg); }.faq-title h2 { margin:0; font:clamp(29px,4vw,42px)/1 Shrikhand,serif; letter-spacing:-.05em; }.faq-title span { color:var(--pink); }
+    .faq-item { border-top:1px solid rgba(248,245,239,.25); }.faq-item:last-child { border-bottom:1px solid rgba(248,245,239,.25); }.faq-question { width:100%; padding:15px 0; border:0; color:var(--paper); background:transparent; cursor:pointer; display:flex; justify-content:space-between; text-align:left; font:700 12px Manrope,sans-serif; }.faq-question b { color:var(--lime); font:17px/10px 'DM Mono',monospace; transition:transform .25s; }.faq-answer { display:grid; grid-template-rows:0fr; transition:grid-template-rows .3s ease; }.faq-answer p { overflow:hidden; margin:0; color:rgba(248,245,239,.68); font-size:11px; line-height:1.6; }.faq-item.open .faq-answer { grid-template-rows:1fr; }.faq-item.open .faq-answer p { padding-bottom:17px; }.faq-item.open .faq-question b { transform:rotate(45deg); }
+    body > footer.shell { display:none; }.mega-footer { padding:48px 0 23px; background:#07070b; }.footer-grid { display:grid; grid-template-columns:1.2fr 1.2fr 1.2fr 1fr; gap:30px; padding-bottom:44px; }.footer-col h3 { margin:0 0 14px; color:rgba(248,245,239,.48); font:700 11px 'DM Mono',monospace; letter-spacing:.05em; }.footer-col a,.footer-col p { display:block; margin:0 0 11px; color:rgba(248,245,239,.76); text-decoration:none; font-size:12px; font-weight:700; }.footer-col a:hover { color:var(--lime); }.social-row { display:flex; gap:9px; margin-bottom:15px; }.social-row a { width:36px; height:36px; display:grid; place-items:center; border:1px solid rgba(248,245,239,.3); border-radius:50%; margin:0; font:10px 'DM Mono',monospace; }.social-row a:hover { border-color:var(--pink); color:var(--pink); }.footer-base { border-top:1px solid rgba(248,245,239,.15); padding-top:20px; display:flex; justify-content:space-between; color:rgba(248,245,239,.42); font:10px 'DM Mono',monospace; }
+    @media(max-width:760px) { .faq { padding:72px 0; }.footer-grid { grid-template-columns:1fr 1fr; gap:32px 18px; }.footer-base { display:block; line-height:2; } }
+    .before-you-go { padding:112px 0; background:#0b0a12; }
+    .before-title { display:flex; align-items:center; gap:23px; margin-bottom:55px; }
+    .before-mark { width:39px; height:39px; flex:0 0 auto; transform:rotate(-5deg); background:linear-gradient(90deg,var(--pink),#7a59ff,var(--blue)); }
+    .before-title h2 { margin:0; font:clamp(48px,7vw,84px)/.9 Shrikhand,serif; letter-spacing:-.065em; }
+    .before-title h2 span { background:linear-gradient(90deg,#ff7142,#ff4fc9,#5ca9ff); color:transparent; background-clip:text; -webkit-background-clip:text; }
+    .before-title p { margin:12px 0 0; color:rgba(248,245,239,.65); font-size:14px; }
+    .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:0 24px; }
+    .info-card { border-top:1px solid rgba(248,245,239,.72); padding:18px 0 25px; min-height:205px; }
+    .info-card h3 { margin:0 0 8px; font-size:18px; letter-spacing:-.04em; }
+    .info-card p { margin:0 0 12px; max-width:560px; color:rgba(248,245,239,.73); font-size:12px; line-height:1.5; }
+    .info-card ul { padding:0; margin:0; list-style:none; color:rgba(248,245,239,.72); font-size:11px; line-height:1.65; }
+    .info-card li { position:relative; padding-left:14px; margin-bottom:4px; }.info-card li:before { content:'•'; position:absolute; left:0; color:var(--pink); font-size:15px; line-height:12px; }
+    .info-card a { color:var(--lime); text-decoration:none; }
+    @media(max-width:760px) { .before-you-go { padding:75px 0; } .before-title { align-items:flex-start; gap:14px; margin-bottom:40px; } .before-mark { width:29px; height:38px; margin-top:4px; } .before-title p { font-size:12px; } .info-grid { grid-template-columns:1fr; } .info-card { min-height:0; } }
+    /* El mapa de compra vive en entradas.html. */
+    .zone-picker { display:none; }
+    .day-two { display:none; background:#171022; color:var(--paper); }
+    .day-two.visible { display:block; }
+    .lineup-enter { animation:lineupIn .46s cubic-bezier(.16,1,.3,1) both; }
+    @keyframes lineupIn { from { opacity:0; transform:translateY(26px); filter:blur(4px); } to { opacity:1; transform:translateY(0); filter:blur(0); } }
+    @media(prefers-reduced-motion:reduce) { .lineup-enter { animation:none; } }
+    .day-two .artist-grid { grid-template-rows:210px 210px; }
+    .day-two .artist-main { background:#772749; }
+    .day-two .artist-main img { object-position:center 18%; }
+    .day-two .artist:nth-child(2):after { background:linear-gradient(0deg,rgba(0,0,0,.58),transparent),url('omar-courtz.jpg') center/cover; }
+    .day-two .artist:nth-child(3):after { background:linear-gradient(0deg,rgba(0,0,0,.58),transparent),url('de-la-rose.jpg') center/cover; }
+    .day-two .artist:nth-child(4):after { background:linear-gradient(0deg,rgba(0,0,0,.58),transparent),url('mora.jpg') center/cover; }
+    .day-two .artist:nth-child(5):after { background:linear-gradient(0deg,rgba(0,0,0,.58),transparent),url('juicy-bae.jpg') center 28%/cover; }
+    /* Fotos promocionales locales para el cartel. */
+    .artist:nth-child(2):after { background-image:linear-gradient(0deg,rgba(0,0,0,.58),rgba(0,0,0,.04)),url('young-miko.jpg'); background-size:cover; background-position:center; }
+    .artist:nth-child(3):after { background-image:linear-gradient(0deg,rgba(0,0,0,.58),rgba(0,0,0,.04)),url('saiko.jpg'); background-size:cover; background-position:center; }
+    .artist:nth-child(4):after { background-image:linear-gradient(0deg,rgba(0,0,0,.58),rgba(0,0,0,.04)),url('ptazeta.jpg'); background-size:cover; background-position:center 24%; }
+    .artist:nth-child(5):after { background-image:linear-gradient(0deg,rgba(0,0,0,.58),rgba(0,0,0,.04)),url('alvama-ice.jpg'); background-size:cover; background-position:center; }
+    /* El botón conserva contraste dentro de las tarjetas blancas al hacer hover. */
+    .ticket:not(.highlight) .cta { background:var(--paper); color:var(--ink); }
+    .ticket:not(.highlight):hover .cta { background:#111; color:var(--paper); }
+    /* Selector de zonas del recinto */
+    .zone-picker { background:#090b13; padding:108px 0; position:relative; overflow:hidden; }
+    .zone-picker:before { content:"MY MAP"; position:absolute; right:-25px; top:8px; color:rgba(255,255,255,.035); font:17vw/.8 Shrikhand,serif; white-space:nowrap; }
+    .picker-head { display:flex; align-items:end; justify-content:space-between; gap:30px; margin-bottom:42px; position:relative; }
+    .picker-head p { max-width:380px; margin:0; color:rgba(248,245,239,.65); font-size:14px; line-height:1.55; }
+    .picker-layout { display:grid; grid-template-columns:minmax(0,1.55fr) minmax(285px,.7fr); gap:24px; position:relative; }
+    .festival-map { min-height:520px; padding:18px; border:1px solid var(--line); border-radius:22px; background:radial-gradient(circle at 50% 45%,#263b4b 0, #101a2c 61%,#0a0c14 100%); box-shadow:inset 0 0 50px rgba(92,169,255,.08); }
+    .festival-map svg { width:100%; height:100%; display:block; }
+    .map-zone { cursor:pointer; transition:filter .2s,transform .2s; transform-box:fill-box; transform-origin:center; outline:none; }
+    .map-zone:hover,.map-zone.selected { filter:brightness(1.3) drop-shadow(0 0 8px currentColor); transform:scale(1.025); }
+    .map-zone rect,.map-zone path { stroke:rgba(255,255,255,.82); stroke-width:2; stroke-dasharray:5 4; }
+    .map-zone text { pointer-events:none; fill:#0b0c12; font:700 14px Manrope,Arial,sans-serif; text-anchor:middle; }
+    .map-zone .small { font:500 10px 'DM Mono',monospace; letter-spacing:1px; }
+    .stage text { fill:#f8f5ef; font:18px Shrikhand,serif; letter-spacing:.5px; } .stage rect { fill:#1b2031; stroke:var(--pink); stroke-width:3; }
+    .map-note { fill:rgba(248,245,239,.55); font:10px 'DM Mono',monospace; letter-spacing:1.5px; }
+    .picker-panel { border-radius:22px; padding:28px; background:var(--paper); color:var(--ink); display:flex; flex-direction:column; min-height:520px; }
+    .picker-panel .eyebrow { opacity:.6; } .selected-zone { margin:16px 0 5px; font:35px/.92 Shrikhand,serif; letter-spacing:-.05em; } .zone-description { margin:0 0 22px; font:12px/1.55 'DM Mono',monospace; min-height:57px; }
+    .included { padding:17px 0; border-top:1px solid rgba(8,9,14,.16); font:11px/1.8 'DM Mono',monospace; }
+    .quantity-row { display:flex; justify-content:space-between; align-items:center; padding:16px 0; border-top:1px solid rgba(8,9,14,.16); }
+    .quantity-row select { border:1px solid rgba(8,9,14,.25); background:white; border-radius:8px; padding:8px 13px; font:700 13px Manrope,sans-serif; }
+    .total { margin-top:auto; padding-top:17px; border-top:2px solid #111; display:flex; align-items:end; justify-content:space-between; } .total span { font:10px 'DM Mono',monospace; text-transform:uppercase; } .total strong { font:42px/.85 Shrikhand,serif; letter-spacing:-.06em; }
+    .reserve { margin-top:20px; border:0; width:100%; cursor:pointer; background:#111; color:white; border-radius:13px; padding:17px 14px; font:800 13px Manrope,sans-serif; transition:.2s; } .reserve:hover { background:var(--pink); color:#111; transform:translateY(-2px); }
+    .legend { display:flex; flex-wrap:wrap; gap:10px 18px; margin-top:18px; font:10px 'DM Mono',monospace; color:rgba(248,245,239,.72); } .legend i { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; }
+    @media(max-width:760px) { .zone-picker { padding:72px 0; } .picker-head,.picker-layout { display:block; } .picker-head p { margin-top:18px; } .festival-map { min-height:370px; padding:6px; margin-bottom:16px; } .picker-panel { min-height:430px; } .map-zone text { font-size:10px; } .map-zone .small { font-size:7px; } }
+    .social-row a svg { width:16px; height:16px; fill:currentColor; }
+    .route-btn { display:inline-flex; margin-top:17px; padding:10px 13px; border-radius:9px; background:var(--lime); color:#111; text-decoration:none; font:800 11px Manrope,sans-serif; }
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+  <header class="hero" id="inicio">
+    <nav><a class="nav-logo" href="#inicio">My<i>Fest</i> BCN</a><div class="nav-links"><a href="#cartel">Cartel</a><a href="#horarios">Horarios</a><a href="#entradas">Entradas</a><a class="buy" href="#entradas">Comprar entradas ↗</a></div></nav>
+    <div class="orb one"></div><div class="orb two"></div><div class="orb three"></div>
+    <img class="hero-photo" src="myketowers.png" alt="Myke Towers, artista principal de MyFest BCN">
+    <div class="shell hero-content">
+      <div class="hero-topline"><span class="pill"><i class="dot"></i> El verano suena distinto</span></div>
+      <h1>MyFest <span>BCN</span></h1>
+      <p class="hero-desc">Una noche diseñada para vibrar alto. El nuevo ritual de la música urbana llega al Parc del Fòrum.</p>
+      <a class="cta" href="#entradas">Vivir MyFest <b class="arrow">↗</b></a>
+    </div>
+    <div class="shell hero-date"><strong>18·07·26</strong><span>PARC DEL FÒRUM / BARCELONA</span></div>
+  </header>
+  <div class="ticker"><div class="ticker-track">MYKE TOWERS ✦ BARCELONA ✦ UNA NOCHE SOLAMENTE ✦ MYKE TOWERS ✦ BARCELONA ✦ UNA NOCHE SOLAMENTE ✦ MYKE TOWERS ✦ BARCELONA ✦ UNA NOCHE SOLAMENTE ✦ </div></div>
+  <main>
+    <section class="section shell intro"><div><p class="eyebrow">01 — El movimiento</p><h2>Más que un festival.</h2></div><div><p class="intro-copy">Una celebración de <em>ritmo, estilo y energía</em> junto al Mediterráneo. MyFest reúne a quienes viven la música sin pedir permiso.</p><div class="stats"><div class="stat"><strong>20K</strong><span>Almas bailando</span></div><div class="stat"><strong>12H</strong><span>Sin pausa</span></div><div class="stat"><strong>2</strong><span>Escenarios</span></div></div></div></section>
+    <section class="section lineup" id="cartel"><div class="shell"><div class="lineup-head"><div><p class="eyebrow">02 — El cartel</p><h2 class="section-title">A volumen máximo.</h2></div><span class="pill">+ artistas por anunciar</span></div><div class="artist-grid"><article class="artist artist-main"><img src="myketowers.png" alt="Myke Towers"><span class="tag">Headliner</span><h3>Myke<br>Towers</h3></article><article class="artist"><h3>Young<br>Miko</h3></article><article class="artist"><h3>Saiko</h3></article><article class="artist"><h3>Ptazeta</h3></article><article class="artist"><h3>Alvama<br>Ice</h3></article></div></div></section>
+    <section class="section schedule" id="horarios"><div class="shell"><div class="schedule-head"><div><p class="eyebrow">03 — Programación</p><h2 class="section-title">Del atardecer<br>al amanecer.</h2></div><div class="days"><button class="day active">SÁB 18 JUL</button><button class="day">DOM 19 JUL</button></div></div><div class="sets"><div class="set"><time>17:30</time><b>Apertura de puertas</b><small>RECINTO</small><span class="plus">+</span></div><div class="set"><time>19:00</time><b>Alvama Ice</b><small>MY STAGE</small><span class="plus">+</span></div><div class="set"><time>20:30</time><b>Ptazeta</b><small>MY STAGE</small><span class="plus">+</span></div><div class="set"><time>22:15</time><b>Young Miko</b><small>MY STAGE</small><span class="plus">+</span></div><div class="set featured"><time>00:00</time><b>Myke Towers</b><small>MY STAGE</small><span class="plus">+</span></div></div></div></section>
+    <section class="section experience"><div class="shell experience-grid"><div><p class="eyebrow">04 — La experiencia</p><h2 class="section-title">Tu verano,<br>en modo legendario.</h2><p>Dos escenarios. Instalaciones inmersivas. Food village. Un atardecer frente al mar y la ciudad entera esperando afuera.</p></div><div class="perks"><div class="perk">MY STAGE<span>El corazón del festival, diseñado para no apartar la mirada.</span></div><div class="perk">SOUND LAB<span>Selección de DJs, breaks inesperados y sonido sin fronteras.</span></div><div class="perk">FOOD VILLAGE<span>Sabores locales, cócteles helados y energía para seguir.</span></div><div class="perk">MY MOMENTS<span>Fotomatón, beauty bar y espacios para guardar la noche.</span></div></div></div></section>
+    <section class="section tickets" id="entradas"><div class="shell"><div class="ticket-head"><div><p class="eyebrow">05 — Entradas</p><h2 class="section-title">Elige tu<br>manera de entrar.</h2></div><span class="pill"><i class="dot"></i> Early bird activo</span></div><div class="ticket-cards"><article class="ticket"><span class="eyebrow">General</span><h3>MyFest Pass</h3><p>Acceso al recinto y a todos los escenarios.</p><div class="price">59€</div><a class="cta" href="#">Conseguir entrada <b class="arrow">↗</b></a></article><article class="ticket highlight"><span class="eyebrow">Más elegido</span><h3>MyFest Plus</h3><p>Acceso prioritario, zona elevada y barra exclusiva.</p><div class="price">99€</div><a class="cta" href="#">Conseguir entrada <b class="arrow">↗</b></a></article><article class="ticket"><span class="eyebrow">La experiencia</span><h3>MyFest VIP</h3><p>Todo Plus, lounge VIP, parking y acceso backstage.</p><div class="price">179€</div><a class="cta" href="#">Conseguir entrada <b class="arrow">↗</b></a></article></div></div></section>
+    <section class="location" id="ubicacion"><div class="location-copy"><p class="eyebrow">06 — Ubicación</p><h2 class="section-title">Parc del Fòrum.<br>El mar de fondo.</h2><p>Un icono de Barcelona convertido en nuestra pista de baile. Llegarás fácil en metro, tram o bici. Volverás con una historia difícil de contar.</p><span class="pill" style="border-color:rgba(0,0,0,.25)">Plaça del Fòrum, 1 · 08019 BCN ↗</span></div><div class="map"><div class="pin"></div></div></section>
+    <section class="section day-two" id="dia2"><div class="shell"><div class="lineup-head"><div><p class="eyebrow">Día 02 — Domingo 19 julio</p><h2 class="section-title">El segundo<br>golpe.</h2></div><span class="pill"><i class="dot"></i> Cartel confirmado</span></div><div class="artist-grid"><article class="artist artist-main"><img src="hades66.jpg" alt="Hades66"><span class="tag">Headliner día 2</span><h3>Hades<br>66</h3></article><article class="artist"><h3>Omar<br>CourtZ</h3></article><article class="artist"><h3>De La<br>Rose</h3></article><article class="artist"><h3>Mora</h3></article><article class="artist"><h3>Juicy<br>BAE</h3></article></div></div></section>
+    <section class="faq" id="preguntas"><div class="shell faq-layout"><div class="faq-title"><i></i><h2>Preguntas <span>frecuentes</span></h2></div><div class="faq-item"><button class="faq-question">¿Hay edad mínima para entrar?<b>+</b></button><div class="faq-answer"><p>MyFest está pensado para mayores de 16 años. Las personas de 16 y 17 años deben acceder con autorización firmada y un documento identificativo.</p></div></div><div class="faq-item"><button class="faq-question">¿Puedo salir y volver a entrar?<b>+</b></button><div class="faq-answer"><p>No se permite la reentrada una vez validada la pulsera, salvo casos justificados y autorizados por la organización.</p></div></div><div class="faq-item"><button class="faq-question">¿Cómo funcionan las entradas y el cambio de titular?<b>+</b></button><div class="faq-answer"><p>Recibirás la entrada digital por email. El cambio de titular puede gestionarse desde tu cuenta hasta 48 horas antes del festival.</p></div></div><div class="faq-item"><button class="faq-question">¿Qué pasa si llueve?<b>+</b></button><div class="faq-answer"><p>El festival se celebra al aire libre y seguirá adelante salvo que las autoridades determinen lo contrario por motivos de seguridad.</p></div></div><div class="faq-item"><button class="faq-question">¿Habrá taquillas o guardarropa?<b>+</b></button><div class="faq-answer"><p>Sí. Encontrarás taquillas y servicio de guardarropa junto a la entrada principal, hasta completar aforo.</p></div></div></div></section>
+    <section class="before-you-go" id="info"><div class="shell"><div class="before-title"><i class="before-mark"></i><div><h2>Antes de <span>venir</span></h2><p>Todo lo que conviene saber para que solo tengas que pensar en bailar.</p></div></div><div class="info-grid"><article class="info-card"><h3>Cómo llegar</h3><p>Parc del Fòrum, entre Barcelona y Sant Adrià de Besòs. El recinto está conectado para que llegues sin complicaciones.</p><ul><li>Metro L4 · El Maresme | Fòrum, a pocos minutos del acceso.</li><li>Tram T4 · parada Fòrum, con servicio reforzado.</li><li>Bus H16, V31 y 136 hasta Rambla Prim.</li><li>Bicing a 200 m y parking de bicicletas vigilado.</li></ul></article><article class="info-card"><h3>Accesibilidad</h3><p>Un festival para todas las personas, con recorridos señalizados desde el transporte hasta cada escenario.</p><ul><li>Recinto llano y sin escalones en los accesos principales.</li><li>Plataforma elevada para PMR con acompañante.</li><li>Entrada preferente presentando acreditación.</li><li><a href="mailto:accesibilidad@myfestbcn.com">accesibilidad@myfestbcn.com</a> para asistencia.</li></ul></article><article class="info-card"><h3>Qué puedes llevar</h3><p>Habrá revisión de bolsos y mochilas. Cuanto menos lleves, más rápido empieza tu noche.</p><ul><li>Sí: botella vacía de plástico, protector solar y mochila pequeña.</li><li>No: vidrio, latas, sombrillas, sillas, palos selfie o cámaras profesionales.</li><li>Las botellas se rellenan gratis en los puntos de agua.</li></ul></article><article class="info-card"><h3>Pulsera cashless</h3><p>Dentro se paga con la pulsera: rápido, cómodo y sin necesidad de llevar efectivo.</p><ul><li>Recárgala online antes del 17 de julio o dentro del recinto.</li><li>El saldo sobrante se devuelve desde tu cuenta.</li><li>Vaso reutilizable: fianza de 2€ recuperable al devolverlo.</li><li>Si la pierdes, bloquéala en el punto de información.</li></ul></article></div></div></section>
+    <section class="zone-picker" id="selector">
+      <div class="shell"><div class="picker-head"><div><p class="eyebrow">07 — Selecciona tu zona</p><h2 class="section-title">Encuentra tu<br>sitio en la noche.</h2></div><p>Explora el plano del festival y elige cómo quieres vivir el directo. Todas las entradas incluyen acceso al recinto y a los dos escenarios.</p></div>
+        <div class="picker-layout"><div><div class="festival-map"><svg viewBox="0 0 760 500" role="img" aria-label="Plano interactivo de zonas de MyFest BCN"><path d="M32 70H728V430H32Z" fill="none" stroke="rgba(248,245,239,.22)" stroke-width="2"/><text x="380" y="42" class="map-note" text-anchor="middle">ENTRADA PRINCIPAL · PARC DEL FÒRUM</text><g class="stage"><rect x="270" y="90" width="220" height="62" rx="13"/><text x="380" y="129" text-anchor="middle">MY STAGE</text></g><g class="map-zone selected" tabindex="0" data-zone="pista"><path fill="#5ca9ff" d="M169 171H591V332H169Z"/><text x="380" y="244">PISTA GENERAL</text><text class="small" x="380" y="263">MÁXIMA ENERGÍA</text></g><g class="map-zone" tabindex="0" data-zone="front"><path fill="#ff4fc9" d="M280 160H480V220H280Z"/><text x="380" y="188">FRONT STAGE</text><text class="small" x="380" y="205">FRENTE AL ESCENARIO</text></g><g class="map-zone" tabindex="0" data-zone="vip"><path fill="#d7ff42" d="M80 177H151V330H80Z"/><text x="115" y="244">VIP</text><text class="small" x="115" y="261">LOUNGE</text></g><g class="map-zone" tabindex="0" data-zone="vip"><path fill="#d7ff42" d="M609 177H680V330H609Z"/><text x="644" y="244">VIP</text><text class="small" x="644" y="261">LOUNGE</text></g><g class="map-zone" tabindex="0" data-zone="tribuna"><path fill="#ff7a38" d="M169 351H591V414H169Z"/><text x="380" y="380">TRIBUNA ELEVADA</text><text class="small" x="380" y="398">VISTA PANORÁMICA</text></g><circle cx="89" cy="100" r="20" fill="#ff7a38"/><text x="89" y="105" fill="#111" font-size="11" font-weight="800" text-anchor="middle">WC</text><circle cx="671" cy="100" r="20" fill="#ff7a38"/><text x="671" y="105" fill="#111" font-size="11" font-weight="800" text-anchor="middle">BAR</text><text x="380" y="466" class="map-note" text-anchor="middle">FOOD VILLAGE · MY MOMENTS · SALIDAS</text></svg></div><div class="legend"><span><i style="background:#5ca9ff"></i>Pista</span><span><i style="background:#ff4fc9"></i>Front Stage</span><span><i style="background:#d7ff42"></i>VIP</span><span><i style="background:#ff7a38"></i>Tribuna</span></div></div>
+          <aside class="picker-panel" aria-live="polite"><span class="eyebrow">Tu experiencia</span><h3 class="selected-zone" id="zone-name">Pista General</h3><p class="zone-description" id="zone-description">Baila en el corazón del festival con acceso a todos los escenarios, barras y activaciones.</p><div class="included" id="zone-included">✓ Acceso general al recinto<br>✓ Pista My Stage + Sound Lab<br>✓ Food Village y My Moments</div><div class="quantity-row"><span class="eyebrow">Cantidad</span><select id="quantity" aria-label="Cantidad de entradas"><option value="1">1 entrada</option><option value="2">2 entradas</option><option value="3">3 entradas</option><option value="4">4 entradas</option></select></div><div class="total"><span>Total<br><small>Gastos incluidos</small></span><strong id="total-price">69€</strong></div><button class="reserve" id="reserve">Reservar Pista General · 69€ ↗</button></aside>
+        </div></div>
+    </section>
+  </main>
+  <footer class="shell"><div class="footer-top"><div class="footer-logo">My<i>Fest</i><br>BCN</div><div class="socials"><a href="#">INSTAGRAM ↗</a><a href="#">TIKTOK ↗</a><a href="#">SPOTIFY ↗</a></div></div><div class="footer-bottom"><span>© 2026 MYFEST BCN. ALL RIGHTS RESERVED.</span><span>POLÍTICA DE PRIVACIDAD · COOKIES</span></div></footer>
+  <footer class="mega-footer"><div class="shell"><div class="footer-grid"><div class="footer-col"><h3>FESTIVAL</h3><a href="#cartel">Cartel</a><a href="#horarios">Horarios</a><a href="#info">Cómo llegar</a><a href="entradas.html">Plano del recinto</a></div><div class="footer-col"><h3>ENTRADAS</h3><a href="entradas.html">Abonos y entradas de día</a><a href="entradas.html">Extras y transporte</a><a href="#preguntas">Cambio de titular</a><a href="#preguntas">Reventa oficial</a></div><div class="footer-col"><h3>AYUDA</h3><a href="#info">Accesibilidad</a><a href="#preguntas">Preguntas frecuentes</a><a href="mailto:hola@myfestbcn.com">Objetos perdidos</a></div><div class="footer-col"><h3>SÍGUENOS</h3><div class="social-row"><a href="#" aria-label="Instagram">IG</a><a href="#" aria-label="TikTok">TK</a><a href="#" aria-label="YouTube">YT</a><a href="#" aria-label="Spotify">SP</a></div><p>Parc del Fòrum<br>Rambla Prim 2–4, 08019 Barcelona</p></div></div><div class="footer-base"><span>© 2026 MYFEST BCN · TODOS LOS DERECHOS RESERVADOS</span><span>PRIVACIDAD · COOKIES · TÉRMINOS</span></div></div></footer>
+  <script>document.querySelectorAll('.day').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.day').forEach(x=>x.classList.remove('active'));b.classList.add('active')}));</script>
+  <script>
+    (() => {
+      const zones = {
+        pista: { name:'Pista General', price:69, description:'Baila en el corazón del festival con acceso a todos los escenarios, barras y activaciones.', included:'✓ Acceso general al recinto<br>✓ Pista My Stage + Sound Lab<br>✓ Food Village y My Moments' },
+        front: { name:'Front Stage', price:119, description:'Tu sitio más cerca de Myke Towers. Una zona acotada frente al escenario principal.', included:'✓ Acceso prioritario al recinto<br>✓ Zona Front Stage junto a My Stage<br>✓ Barras exclusivas Front Stage' },
+        tribuna: { name:'Tribuna Elevada', price:99, description:'Una perspectiva privilegiada y más espacio para vivir el show con comodidad.', included:'✓ Acceso general al recinto<br>✓ Plataforma elevada con vista panorámica<br>✓ Barra dedicada de Tribuna' },
+        vip: { name:'MyFest VIP Lounge', price:189, description:'La experiencia completa: comodidad, vistas y servicios exclusivos durante toda la noche.', included:'✓ Acceso fast lane y zona elevada<br>✓ Lounge VIP, barra y aseos privados<br>✓ Copa de bienvenida + guardarropa' }
+      };
+      let selected = 'pista';
+      const name = document.getElementById('zone-name'), description = document.getElementById('zone-description'), included = document.getElementById('zone-included'), total = document.getElementById('total-price'), reserve = document.getElementById('reserve'), quantity = document.getElementById('quantity');
+      const render = () => { const zone = zones[selected], amount = zone.price * Number(quantity.value); name.textContent = zone.name; description.textContent = zone.description; included.innerHTML = zone.included; total.textContent = amount + '€'; reserve.textContent = 'Reservar ' + zone.name + ' · ' + amount + '€ ↗'; };
+      document.querySelectorAll('.map-zone').forEach(zone => zone.addEventListener('click', () => { selected = zone.dataset.zone; document.querySelectorAll('.map-zone').forEach(item => item.classList.toggle('selected', item.dataset.zone === selected)); render(); }));
+      quantity.addEventListener('change', render);
+      document.querySelectorAll('.ticket .cta, .buy').forEach(link => link.addEventListener('click', event => { event.preventDefault(); document.getElementById('selector').scrollIntoView({behavior:'smooth', block:'start'}); }));
+      reserve.addEventListener('click', () => { reserve.textContent = '✓ Zona reservada · continuar pago'; reserve.style.background = '#5ca9ff'; reserve.style.color = '#111'; });
+    })();
+  </script>
+  <script>
+    const festivalDays = document.querySelectorAll('.day');
+    const firstLineup = document.getElementById('cartel');
+    const secondLineup = document.getElementById('dia2');
+    let activeDay = 0;
+    let isChangingDay = false;
+    const changeLineup = (from, to, show) => {
+      if (isChangingDay) return;
+      isChangingDay = true;
+      from.animate([{opacity:1,transform:'translateY(0)',filter:'blur(0)'},{opacity:0,transform:'translateY(-18px)',filter:'blur(3px)'}], {duration:210,easing:'ease-in',fill:'forwards'});
+      window.setTimeout(() => {
+        from.style.display = 'none';
+        show();
+        /* Cancela la animación anterior con fill:forwards para restaurar el cartel al volver. */
+        to.getAnimations().forEach(animation => animation.cancel());
+        to.style.opacity = '1';
+        to.style.transform = 'translateY(0)';
+        to.style.filter = 'blur(0)';
+        to.classList.add('lineup-enter');
+        to.scrollIntoView({behavior:'smooth',block:'start'});
+        window.setTimeout(() => { to.classList.remove('lineup-enter'); isChangingDay = false; }, 470);
+      }, 210);
+    };
+    festivalDays.forEach((day, index) => day.addEventListener('click', () => {
+      if (index === activeDay || isChangingDay) return;
+      if (index === 1) {
+        changeLineup(firstLineup, secondLineup, () => { firstLineup.after(secondLineup); secondLineup.classList.add('visible'); });
+      } else {
+        changeLineup(secondLineup, firstLineup, () => { secondLineup.classList.remove('visible'); firstLineup.style.display = ''; });
+      }
+      activeDay = index;
+    }));
+    const travelInfo = document.querySelector('.info-card');
+    if (travelInfo) travelInfo.insertAdjacentHTML('beforeend', '<a class="route-btn" href="ruta-festival.html">Ver ruta desde Plaça Catalunya ↗</a>');
+    document.querySelectorAll('a[href="#info"]').forEach(link => { link.href = 'ruta-festival.html'; });
+    document.querySelectorAll('a[href="entradas.html"]').forEach(link => { link.href = 'mapa-festival.html'; });
+    const socialIcons = {
+      Instagram: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7m5 3.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5m0 2A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5M17.8 6.2a1.2 1.2 0 1 1-1.2-1.2 1.2 1.2 0 0 1 1.2 1.2Z"/></svg>',
+      TikTok: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/></svg>',
+      YouTube: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg>',
+      Spotify: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.3c-.2.36-.66.48-1.02.24-2.82-1.74-6.36-2.1-10.56-1.14-.42.12-.78-.18-.9-.54-.12-.42.18-.78.54-.9 4.56-1.02 8.52-.6 11.64 1.32.42.18.48.66.3 1.02Zm1.44-3.3c-.3.42-.84.6-1.26.3-3.24-1.98-8.16-2.58-11.94-1.38-.48.12-1.02-.12-1.14-.6-.12-.48.12-1.02.6-1.14 4.38-1.32 9.78-.66 13.5 1.62.36.18.54.78.24 1.2Zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.3c-.6.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.26-1.26 11.28-1.02 15.72 1.62.54.3.72 1.02.42 1.56-.3.42-1.02.6-1.56.3Z"/></svg>'
+    };
+    document.querySelectorAll('.social-row a').forEach(link => { link.innerHTML = socialIcons[link.getAttribute('aria-label')] || ''; });
+    document.querySelectorAll('.faq-question').forEach(question => question.addEventListener('click', () => {
+      const item = question.parentElement;
+      document.querySelectorAll('.faq-item').forEach(other => { if (other !== item) other.classList.remove('open'); });
+      item.classList.toggle('open');
+    }));
+    document.addEventListener('click', event => {
+      if (event.target.closest('.ticket .cta, .buy')) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        window.location.href = 'mapa-festival.html';
+      }
+    }, true);
+  </script>
+</body>
+</html>
